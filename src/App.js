@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import ContactsInput from './components/ContactsInput';
 import ContactsList from './components/ContactsList';
@@ -24,6 +24,22 @@ function App() {
       ...prevState.filter(contact => contact.id !== id),
     ]);
   };
+
+  // componentDidMount
+  useEffect(() => {
+    console.log('mount');
+    const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
+
+    if (parsedContacts) {
+      setContacts(parsedContacts);
+    }
+  }, []);
+
+  // componentDidUpdate
+  useEffect(() => {
+    console.log('обновилось поле');
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
   const getContacts = getVisibleContacts();
 
